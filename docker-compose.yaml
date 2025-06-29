@@ -2,25 +2,25 @@ version: "3"
 
 services:
   frps:
-    image: fatedier/frps
+    image: fatedier/frp
     container_name: frps
     ports:
-      - "7000:7000"
-      - "7777:7777"
-      - "8888:8888
+      - "7000:7000/tcp"
+      - "7777:7777/tcp"
+      - "8888:8888/udp"
     volumes:
-      - ./frps/frps.ini:/frps.ini
+      - ./server/frp.ini:/frps.ini
     command: -c /frps.ini
     environment:
       - FRP_TOKEN=${FRP_TOKEN}
     restart: always
 
   frpc:
-    image: fatedier/frpc
+    image: fatedier/frp
     container_name: frpc
     network_mode: "host"
     volumes:
-      - ./frpc/frpc.ini:/frpc.ini
+      - ./client/frpc.ini:/frpc.ini
     command: -c /frpc.ini
     environment:
       - FRP_TOKEN=${FRP_TOKEN}
